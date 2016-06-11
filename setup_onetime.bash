@@ -18,7 +18,7 @@ sudo cp conf/safe_search.conf /etc/dnsmasq.d/
 if [ -d "/var/www/html" ]; then
     sudo cp conf/index.html /var/www/html/
 elif [ -d "/var/www" ]; then
-    sudo cp conf/index.html /var/wwww/html/
+    sudo cp conf/index.html /var/www/
 fi
 
 echo \# Python Settings for the local builder > local.py
