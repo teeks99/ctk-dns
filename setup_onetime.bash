@@ -22,7 +22,7 @@ elif [ -d "/var/www" ]; then
 fi
 
 echo \# Python Settings for the local builder > local.py
-echo REDIRECT=$listen_address >> local.py
+echo REDIRECT=\"$listen_address\" >> local.py
 
 script_dir=`pwd`
 pushd /etc/dnsmasq.d/
