@@ -8,13 +8,18 @@ sudo apt-get -y install dnsmasq apache2 dnsutils
 listen_address=`ip route get 8.8.8.8 | head -1 | cut -d' ' -f8`
 
 # Load the settings for dnsmasq
-sudo sed s/LISTEN_ADDRESS/$listen_address/g conf/dnsmasq_settings.conf > /etc/dnsmasq.d/dnsmasq_settings.conf
+sed s/LISTEN_ADDRESS/$listen_address/g conf/dnsmasq_settings.conf > dnsmasq_settings.conf
+sudo mv dnsmasq_settings.conf /etc/dnsmasq.d/
 
 # Support google safe search
 sudo cp conf/safe_search.conf /etc/dnsmasq.d/
 
 # Set a landing page for intercepted queries
-sudo cp conf/index.html /var/www/html/
+if [ -d "/var/www/html" ]; then
+    sudo cp conf/index.html /var/www/html/
+elif [ -d "/var/www" ]; then
+    sudo cp conf/index.html /var/wwww/html/
+fi
 
 echo \# Python Settings for the local builder > local.py
 echo REDIRECT=$listen_address >> local.py
