@@ -26,6 +26,6 @@ echo REDIRECT=\"$listen_address\" >> local.py
 
 script_dir=`pwd`
 pushd /etc/dnsmasq.d/
-ln -s $script_dir/adult/adult.conf .
+sudo ln -s $script_dir/adult/adult.conf .
 popd
 
