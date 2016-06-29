@@ -7,6 +7,7 @@ The `setup_onetime.bash` script will install the [dnsmasq](http://www.thekelleys
 
 The `update.bash` script will download the latest version of the blacklist and convert it to the format used by dnsmasq.  This can be run from a cron job, possibly monthly.
 
-Once this is setup, the DHCP server that serves DNS can be set to point to this machine. To enable this, the machine should have a static address set, including its own DNS addresss. The dnsmasq server config has google's dns servers hard-coded into it, but if the network dns settings are used it will become cirricular and possibly have difficulting performing updates.
+Once this is setup, the DHCP server that serves DNS can be set to point to this machine. To enable this, the machine should have a static address set, including its own DNS addresss. The dnsmasq server config has google's dns servers hard-coded into it, but if the network dns settings are used it will become cirricular and possibly have difficulting performing updates. If any DHCP addresses are in use in the machine, edit the /etc/dhcp/dhclient.conf file to add `supersede domain-name-servers 8.8.8.8, 8.8.4.4;` or similar and uninstall resolvconf (esp. on ubuntu). 
+
 
 
