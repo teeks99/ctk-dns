@@ -14,6 +14,8 @@ def search_list(lines):
             only_slash_line = no_prefix_line.replace('>', '/')
             line_parts = only_slash_line.split('/')
             domain = line_parts[0]
+            if domain[:4] == "www.":
+                domain = domain[4:]
             domains.append(domain)
     return domains
 
