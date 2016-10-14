@@ -31,4 +31,4 @@ with open("trimmed_list.html", 'r') as file:
 
     with open("small_adult.conf", 'w') as out:
         for domain in domains:
-            out.write("address/." + domain + "/" + local.REDIRECT + "\n")
+            out.write("address=/." + domain + "/" + local.REDIRECT + "\n")
