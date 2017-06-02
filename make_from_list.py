@@ -4,6 +4,7 @@
 # The UT1 Blacklist was too big and was causing the server to drag. Instead, we're going to load from a popular listing of adult sites.
 
 import local
+import sys
 
 def search_list(lines):
     domains = []
@@ -33,4 +34,7 @@ with open("trimmed_list.html", 'r') as file:
 
     with open("small_adult.conf", 'w') as out:
         for domain in domains:
-            out.write("address=/." + domain + "/" + local.REDIRECT + "\n")
+            if len(sys.argv) > 1 and sys.argv[1] == "hosts":
+                out.write("127.0.0.1  " + domain + "\n")
+            else:
+                out.write("address=/." + domain + "/" + local.REDIRECT + "\n")

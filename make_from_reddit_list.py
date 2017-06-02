@@ -8,6 +8,7 @@
 # https://www.reddit.com/r/NoFap/comments/3l89jz/the_most_complete_list_of_porn_sites_to_block_in/
 
 import local
+import sys
 import re
 
 def search_list(lines):
@@ -35,4 +36,7 @@ with open("reddit_list.txt", 'r') as file:
 
     with open("reddit_adult.conf", 'w') as out:
         for domain in domains:
-            out.write("address=/." + domain + "/" + local.REDIRECT + "\n")
+            if len(sys.argv) > 1 and sys.argv[1] == "hosts":
+                out.write("127.0.0.1   " + domain + "\n")
+            else:
+                out.write("address=/." + domain + "/" + local.REDIRECT + "\n")
