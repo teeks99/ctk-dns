@@ -12,9 +12,19 @@ Add Users
 
 Add an `lteacher` and `lstudent` user, with their respective passwords. No need to make them admin/sudo users on here.
 
+    sudo adduser tadmin 
     sudo adduser lteacher
     sudo adduser lstudent
+    sudo addgroup admins
+    sudo addgroup teachers
     sudo addgroup allusers
+    sudo usermod -a -G admins ctk-admin
+    sudo usermod -a -G admins tadmin
+    sudo usermod -a -G teachers ctk-admin
+    sudo usermod -a -G teachers tadmin
+    sudo usermod -a -G teachers lteacher
+    sudo usermod -a -G allusers ctk-admin
+    sudo usermod -a -G allusers tadmin
     sudo usermod -a -G allusers lteacher
     sudo usermod -a -G allusers lstudent
 
@@ -37,7 +47,7 @@ Create Directory
 Create a directory for the teachers to store data:
 
     sudo mkdir /mnt/fs0/TeacherData
-    sudo chown lteacher:lteacher /mnt/fs0/TeacherData
+    sudo chown lteacher:teachers /mnt/fs0/TeacherData
     sudo chmod 750 /mnt/fs0/TeacherData
 
 Create a directory for the students to store data
@@ -45,6 +55,12 @@ Create a directory for the students to store data
     sudo mkdir /mnt/fs0/StudentData
     sudo chown lstudent:allusers /mnt/fs0/StudentData
     sudo chmod 750 /mnt/fs0/StudentData
+
+Create a directory for administrators to store software
+
+    sudo mkdir /mnt/fs0/AdminData
+    sudo chown tadmin:admins /mnt/fs0/AdminData
+    sudo chmod 750 /mnt/fs0/AdminData
 
 Make a link so the teachers can see the student data within their directory
 
@@ -84,6 +100,15 @@ Add the following in the bottom section:
        read only = no
        create mask = 0770
        valid users = lteacher, lstudent
+       
+    [software]
+       comment = Software for Admins to Install
+       browseable = yes
+       path = /mnt/fs0/AdminData
+       guest ok = no
+       read only = no
+       create mask = 0770
+       valid users = tadmin, ctk-admin
 
 Save the `smb.conf` file.
 
@@ -93,9 +118,15 @@ Add samba specific passwords for the users and enable them
     New SMB password:
     Retype new SMB password:
     sudo smbpasswd -a lstudent
-    New SMB password:
-    Retype new SMB password:
+    sudo smbpasswd -a ctk-admin
+    sudo smbpasswd -a tadmin
     sudo smbpasswd -e lteacher
     sudo smbpasswd -e lstudent
+    sudo smbpasswd -e ctk-admin
+    sudo smbpasswd -e tadmin
 
+Restart the samba server
 
+    sudo systemctl restart smbd.service nmbd.service
+
+Attempt to connect to the shares
